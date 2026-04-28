@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>現場で止まらないカード</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f4f5f7;
+      color: #1a1a1a;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 28px 16px 80px;
+    }
+    .app-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      padding: 0 4px;
+      letter-spacing: 0.01em;
+    }
+    .app-desc {
+      color: #666;
+      font-size: 14px;
+      margin: 0 0 28px;
+      padding: 0 4px;
+      line-height: 1.6;
+    }
+    /* セクション見出し */
+    .section-heading {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      margin: 0 0 10px;
+      padding: 0 4px;
+      letter-spacing: 0.04em;
+    }
+    /* 今日の1枚 */
+    .today-card {
+      display: block;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      margin-bottom: 32px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      border-top: 4px solid #f59e0b;
+      transition: transform 0.08s ease, background 0.08s ease;
+    }
+    .today-card:active {
+      transform: scale(0.99);
+      background: #fafbfc;
+    }
+    .today-no {
+      color: #888;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .today-title {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin: 0 0 10px;
+    }
+    .today-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    .tag {
+      background: #eef2f7;
+      color: #4a5568;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .today-summary {
+      color: #444;
+      font-size: 13.5px;
+      line-height: 1.55;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* ナビゲーションボタン */
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .nav-button {
+      display: block;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 18px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: transform 0.08s ease, background 0.08s ease;
+    }
+    .nav-button:active {
+      transform: scale(0.99);
+      background: #fafbfc;
+    }
+    .nav-label {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-label::after {
+      content: "›";
+      color: #999;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .nav-desc {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .error {
+      padding: 30px 18px;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .error code {
+      display: block;
+      margin-top: 10px;
+      padding: 8px;
+      background: #f4f5f7;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="app-title">現場で止まらないカード</h1>
+    <p class="app-desc">若手電気工事担当者が、現場で「何を確認するか・誰に聞くか・どう伝えるか」を30秒で確認するためのカード集です。</p>
+
+    <h2 class="section-heading">今日の1枚</h2>
+    <div id="today-slot">
+      <div class="error">読み込み中...</div>
+    </div>
+
+    <nav class="nav-list">
+      <a class="nav-button" href="categories.html">
+        <div class="nav-label">困りごとから探す</div>
+        <p class="nav-desc">今つまずいている内容から探す</p>
+      </a>
+      <a class="nav-button" href="tags.html">
+        <div class="nav-label">タグから探す</div>
+        <p class="nav-desc">図面確認・他業者調整・検査前などから探す</p>
+      </a>
+      <a class="nav-button" href="list.html">
+        <div class="nav-label">工程順で見る</div>
+        <p class="nav-desc">着工前から引渡しまで順番に見る</p>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    fetch('../data/cards.json')
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(cards => {
+        cards.sort((a, b) => a.id.localeCompare(b.id));
+        const card = pickTodayCard(cards);
+        renderToday(card);
+      })
+      .catch(err => {
+        showTodayError(
+          'データの読み込みに失敗しました。<br>' +
+          '<code>python3 -m http.server</code> をプロジェクトルートで実行してから' +
+          '<code>http://localhost:8000/app/home.html</code> を開いてください。'
+        );
+        console.error(err);
+      });
+
+    /**
+     * 日付ベースで決まる「今日の1枚」を返す。
+     * - YYYY-MM-DD（ローカル日付）から数値シードを作る
+     * - cards.length で割った余りでインデックスを決める
+     * - 全ユーザーで同じ日に同じ1枚が出る
+     */
+    function pickTodayCard(cards) {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = today.getMonth() + 1;
+      const d = today.getDate();
+      const seed = y * 10000 + m * 100 + d; // 例: 20260428
+      const idx = seed % cards.length;
+      return cards[idx];
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function renderToday(card) {
+      const html = `
+        <a class="today-card" href="index.html?id=${encodeURIComponent(card.id)}">
+          <div class="today-no">No. ${escapeHtml(card.id)}</div>
+          <h3 class="today-title">${escapeHtml(card.title)}</h3>
+          <div class="today-tags">
+            ${card.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+          <p class="today-summary">${escapeHtml(card.summary)}</p>
+        </a>
+      `;
+      document.getElementById('today-slot').innerHTML = html;
+    }
+
+    function showTodayError(msg) {
+      document.getElementById('today-slot').innerHTML = `<div class="error">${msg}</div>`;
+    }
+  </script>
+</body>
+</html>
