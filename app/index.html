@@ -63,7 +63,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 28px;
+      margin-bottom: 14px;
     }
     .tag {
       background: #eef2f7;
@@ -73,6 +73,37 @@
       border-radius: 12px;
       white-space: nowrap;
     }
+    /* 管理項目タグ（安全/工程/品質/原価）：補助情報 */
+    .mgmt-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .mgmt-label {
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.06em;
+      margin-right: 2px;
+    }
+    .mgmt-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .mgmt-tag::before {
+      content: "•";
+      margin-right: 4px;
+    }
+    .mgmt-tag-safety { color: #b91c1c; border-color: #fecaca; }
+    .mgmt-tag-process { color: #1e40af; border-color: #bfdbfe; }
+    .mgmt-tag-quality { color: #047857; border-color: #a7f3d0; }
+    .mgmt-tag-cost { color: #b45309; border-color: #fde68a; }
     section {
       margin-bottom: 26px;
     }
@@ -241,6 +272,28 @@
       return items.map(i => `<div class="template-card">${escapeHtml(i)}</div>`).join('');
     }
 
+    // 管理項目タグの表示クラス対応表
+    const MGMT_CLASS = {
+      '安全管理': 'mgmt-tag-safety',
+      '工程管理': 'mgmt-tag-process',
+      '品質管理': 'mgmt-tag-quality',
+      '原価管理': 'mgmt-tag-cost'
+    };
+
+    function mgmtTagsHtml(tags) {
+      if (!tags || tags.length === 0) return '';
+      const items = tags.map(t => {
+        const cls = MGMT_CLASS[t] || '';
+        return `<span class="mgmt-tag ${cls}">${escapeHtml(t)}</span>`;
+      }).join('');
+      return `
+        <div class="mgmt-section">
+          <span class="mgmt-label">管理項目</span>
+          ${items}
+        </div>
+      `;
+    }
+
     function render(card) {
       const html = `
         <div class="card-id">No. ${escapeHtml(card.id)}</div>
@@ -249,6 +302,8 @@
         <div class="tags">
           ${card.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
         </div>
+
+        ${mgmtTagsHtml(card.managementTags)}
 
         <section class="actions-block">
           <h2 class="section-title">今やること3つ</h2>
