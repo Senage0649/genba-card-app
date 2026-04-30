@@ -104,6 +104,69 @@
     .mgmt-tag-process { color: #1e40af; border-color: #bfdbfe; }
     .mgmt-tag-quality { color: #047857; border-color: #a7f3d0; }
     .mgmt-tag-cost { color: #b45309; border-color: #fde68a; }
+    /* 用語解説カード用スタイル */
+    .term-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 10px;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .term-oneliner {
+      background: #f0f7ff;
+      border-left: 4px solid #2563eb;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin-bottom: 26px;
+    }
+    .term-oneliner h2.section-title {
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+    .term-oneliner p {
+      margin: 0;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .term-caution {
+      background: #fff5f5;
+      border-left: 4px solid #c53030;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 26px;
+    }
+    .term-caution h2.section-title {
+      color: #c53030;
+      margin-bottom: 6px;
+    }
+    .term-caution p {
+      margin: 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #2d3748;
+    }
+    .term-ask {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin-top: 28px;
+    }
+    .term-ask h2.section-title {
+      color: #166534;
+      margin-bottom: 6px;
+    }
+    .term-ask p {
+      margin: 0;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 1.6;
+    }
     section {
       margin-bottom: 26px;
     }
@@ -294,7 +357,54 @@
       `;
     }
 
+    // 用語解説カード専用レンダラ
+    function renderTermCard(card) {
+      const tagsHtml = (card.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+      const html = `
+        <div class="term-badge">用語解説</div>
+        <div class="card-id">No. ${escapeHtml(card.id)}</div>
+        <h1 class="title">${escapeHtml(card.title)}</h1>
+
+        <div class="tags">
+          ${tagsHtml}
+        </div>
+
+        ${mgmtTagsHtml(card.managementTags)}
+
+        <section class="term-oneliner">
+          <h2 class="section-title">ひとことで</h2>
+          <p>${escapeHtml(card.termOneLiner || '')}</p>
+        </section>
+
+        <section>
+          <h2 class="section-title">現場で言われる言い方</h2>
+          ${plainList(card.termExpressions || [])}
+        </section>
+
+        <section>
+          <h2 class="section-title">まず確認すること</h2>
+          ${plainList(card.termFirstChecks || [])}
+        </section>
+
+        <section class="term-caution">
+          <h2 class="section-title">注意</h2>
+          <p>${escapeHtml(card.termCaution || '')}</p>
+        </section>
+
+        <section class="term-ask">
+          <h2 class="section-title">聞き方</h2>
+          <p>${escapeHtml(card.termAskTemplate || '')}</p>
+        </section>
+      `;
+      document.getElementById('root').innerHTML = html;
+    }
+
     function render(card) {
+      // 用語解説カードは別レイアウトで描画
+      if (card.cardType === 'term') {
+        renderTermCard(card);
+        return;
+      }
       const html = `
         <div class="card-id">No. ${escapeHtml(card.id)}</div>
         <h1 class="title">${escapeHtml(card.title)}</h1>
