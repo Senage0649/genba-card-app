@@ -295,7 +295,8 @@
   <script>
     // クエリパラメータからカードID取得（未指定なら 001）
     const params = new URLSearchParams(location.search);
-    const cardId = params.get('id') || '001';
+    // 大文字小文字どちらでも一致するように正規化（例：t01 → T01）
+    const cardId = (params.get('id') || '001').toUpperCase();
 
     fetch('../data/cards.json')
       .then(r => {
@@ -303,7 +304,7 @@
         return r.json();
       })
       .then(cards => {
-        const card = cards.find(c => c.id === cardId);
+        const card = cards.find(c => c.id.toUpperCase() === cardId);
         if (!card) {
           showError(`カード ${cardId} が見つかりません`);
           return;
