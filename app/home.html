@@ -100,6 +100,38 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    /* 用語から探すセクション */
+    .terms-desc {
+      color: #666;
+      font-size: 13px;
+      margin: 0 0 12px;
+      padding: 0 4px;
+      line-height: 1.5;
+    }
+    .terms-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .term-chip {
+      display: inline-block;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 9px 14px;
+      font-size: 13.5px;
+      color: #2d3748;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: background 0.08s ease, transform 0.08s ease, border-color 0.08s ease;
+    }
+    .term-chip:active {
+      background: #eef2f7;
+      border-color: #cbd5e0;
+      transform: scale(0.97);
+    }
     /* ナビゲーションボタン */
     .nav-list {
       display: flex;
@@ -169,6 +201,26 @@
     <h2 class="section-heading">今日の1枚</h2>
     <div id="today-slot">
       <div class="error">読み込み中...</div>
+    </div>
+
+    <h2 class="section-heading">用語から探す</h2>
+    <p class="terms-desc">現場で言われて意味がわからない言葉を、ひとことで確認できます。</p>
+    <div class="terms-grid">
+      <a class="term-chip" href="index.html?id=T04">通り芯</a>
+      <a class="term-chip" href="index.html?id=T05">FL</a>
+      <a class="term-chip" href="index.html?id=T06">CH</a>
+      <a class="term-chip" href="index.html?id=T07">仕上げ面</a>
+      <a class="term-chip" href="index.html?id=T08">墨</a>
+      <a class="term-chip" href="index.html?id=T09">開口</a>
+      <a class="term-chip" href="index.html?id=T10">LGS</a>
+      <a class="term-chip" href="index.html?id=T11">ボード</a>
+      <a class="term-chip" href="index.html?id=T12">躯体</a>
+      <a class="term-chip" href="index.html?id=T13">インサート</a>
+      <a class="term-chip" href="index.html?id=T14">スリーブ</a>
+      <a class="term-chip" href="index.html?id=T15">先行配管</a>
+      <a class="term-chip" href="index.html?id=T16">先行配線</a>
+      <a class="term-chip" href="index.html?id=T17">取り合い</a>
+      <a class="term-chip" href="index.html?id=T18">納まり</a>
     </div>
 
     <nav class="nav-list">
